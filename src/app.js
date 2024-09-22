@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 const { default: helmet } = require("helmet");
@@ -10,10 +11,11 @@ app.use(morgan('dev'))
 app.use(helmet())
 app.use(compression())
 
-app.get('/', (req, res, next) => {
-  return res.status(200).json({
-    message: 'Welcome Back',
-  })
-})
+require('./dbs/init.mongodb')
+// const { checkOverload } = require('./helpers/check.connect');
+// checkOverload()
+
+//init routes
+app.use('/', require('./routes'))
 
 module.exports = app;
